@@ -11,7 +11,19 @@ No subscriptions. No cloud. No accounts. BYOK AI. Everything runs locally.
 - **SQLite** - data lives at `~/.founder-os/data.db`
 - **Vanilla JS** - no framework overhead
 
-## Setup
+## Install (Mac)
+
+1. Download `FounderOS-x.x.x-arm64.dmg` from [Releases](https://github.com/thestartupcto/founder-os/releases)
+2. Open DMG, drag FounderOS to Applications
+3. Open Terminal and run:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/thestartupcto/founder-os/main/install-mac.sh | bash
+```
+
+This clears macOS quarantine and signs the app locally. Required until the app is notarized with an Apple Developer certificate.
+
+## Dev Setup
 
 ```bash
 # 1. Install JS dependencies
