@@ -48,7 +48,7 @@
     },
     "publish": {
       "provider": "github",
-      "owner": "rajaathota72",
+      "owner": "thestartupcto",
       "repo": "founder-os"
     },
     "dmg": {

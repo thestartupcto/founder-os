@@ -30,7 +30,10 @@
       "Bash(gh auth *)",
       "Read(//Users/rajaathota72/.ssh/**)",
       "Bash(ssh -T git@github.com)",
-      "Bash(ssh-keygen -t ed25519 -C \"raja@auditone.io\" -f ~/.ssh/id_ed25519 -N \"\")"
+      "Bash(ssh-keygen -t ed25519 -C \"raja@auditone.io\" -f ~/.ssh/id_ed25519 -N \"\")",
+      "Bash(gh repo *)",
+      "Bash(gh api *)",
+      "Bash(git push *)"
     ]
   }
 }

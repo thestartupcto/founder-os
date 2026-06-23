@@ -26,17 +26,14 @@ build-app:
 #        make release BUMP=minor  (0.1.0 -> 0.2.0)
 BUMP ?= patch
 
-release: bump-$(BUMP) build
+release: bump-$(BUMP) build git-push
 	@NEW_VERSION=$$(node -p "require('./package.json').version"); \
 	echo "Releasing v$$NEW_VERSION..."; \
 	gh release create "v$$NEW_VERSION" \
+		--repo thestartupcto/founder-os \
 		--title "v$$NEW_VERSION" \
 		--generate-notes \
-		dist/*/FounderOS*.dmg \
-		dist/*/FounderOS*.exe \
-		dist/*/FounderOS*.AppImage \
-		dist/*/FounderOS*.zip \
-		2>/dev/null || true; \
+		$$(ls dist/*.dmg dist/*.exe dist/*.AppImage dist/*.zip 2>/dev/null) ; \
 	echo "Released v$$NEW_VERSION"
 
 bump-patch:
@@ -44,6 +41,12 @@ bump-patch:
 
 bump-minor:
 	npm version minor --no-git-tag-version
+
+git-push:
+	git add -A
+	@NEW_VERSION=$$(node -p "require('./package.json').version"); \
+	git commit -m "chore: bump version to v$$NEW_VERSION" 2>/dev/null || true; \
+	git push origin main
 
 # ── Clean ─────────────────────────────────────────
 clean:
