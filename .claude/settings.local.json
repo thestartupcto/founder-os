@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(pip3 install *)",
+      "Bash(python3 -c \"import fastapi, uvicorn; print\\('OK'\\)\")",
+      "Bash(python3 -m uvicorn backend.main:app --host 127.0.0.1 --port 8765 --log-level warning)",
+      "Bash(curl -s http://127.0.0.1:8765/health)",
+      "Bash(curl -s http://127.0.0.1:8765/focus/stats/today)",
+      "Bash(curl -s -X POST http://127.0.0.1:8765/focus/sessions -H 'Content-Type: application/json' -d '{\"type\":\"focus\",\"duration_min\":25,\"started_at\":\"2026-06-23T10:00:00\",\"completed\":true}')",
+      "Bash(python3 -m json.tool)",
+      "Bash(kill %1)",
+      "Bash(mkdir -p /Users/rajaathota72/founder-os/.claude)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git rm *)",
+      "Bash(pyinstaller founder-os-backend.spec --clean --noconfirm)",
+      "Bash(./dist/founder-os-backend --port 8766)",
+      "Bash(curl -s http://127.0.0.1:8766/health)",
+      "Bash(timeout 5 ./dist/founder-os-backend --port 8767)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(python3 -c \"import platform; print\\(platform.machine\\(\\)\\)\")",
+      "Bash(./dist/founder-os-backend --port 8769)",
+      "Bash(pyinstaller founder-os-backend.spec --clean --noconfirm --log-level DEBUG)",
+      "Bash(pyinstaller founder-os-backend.spec --clean --noconfirm -D)",
+      "Bash(pyinstaller backend/server.py --onedir --name founder-os-backend-dir --collect-all fastapi --collect-all uvicorn --collect-all starlette --collect-all anyio --collect-all pydantic --collect-all h11 --hidden-import jaraco.text --hidden-import jaraco.functools --hidden-import jaraco.context --hidden-import more_itertools --noconfirm --console)",
+      "Bash(npx electron-builder *)",
+      "Bash(gh auth *)",
+      "Read(//Users/rajaathota72/.ssh/**)",
+      "Bash(ssh -T git@github.com)",
+      "Bash(ssh-keygen -t ed25519 -C \"raja@auditone.io\" -f ~/.ssh/id_ed25519 -N \"\")"
+    ]
+  }
+}

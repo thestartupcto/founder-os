@@ -1,0 +1,73 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            platform: mac
+            py_bin: dist/founder-os-backend
+          - os: windows-latest
+            platform: win
+            py_bin: dist/founder-os-backend.exe
+          - os: ubuntu-latest
+            platform: linux
+            py_bin: dist/founder-os-backend
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install JS deps
+        run: npm ci
+
+      - name: Install Python deps
+        run: |
+          pip install -r backend/requirements.txt
+          pip install -r requirements-build.txt
+
+      - name: Build Python backend
+        run: pyinstaller founder-os-backend.spec --clean --noconfirm
+
+      - name: Build Electron app
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx electron-builder --${{ matrix.platform }} --publish always
+
+  # Marks the GitHub release as non-draft after all platforms finish
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const tag = context.ref.replace('refs/tags/', '');
+            const releases = await github.rest.repos.listReleases({ owner: context.repo.owner, repo: context.repo.repo });
+            const release = releases.data.find(r => r.tag_name === tag);
+            if (release && release.draft) {
+              await github.rest.repos.updateRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: release.id,
+                draft: false,
+              });
+            }

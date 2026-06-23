@@ -1,0 +1,65 @@
+{
+  "name": "founder-os",
+  "version": "0.1.0",
+  "description": "Local-first OS for founders",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:backend": "pyinstaller founder-os-backend.spec --clean",
+    "build:app": "electron-builder",
+    "build": "npm run build:backend && npm run build:app",
+    "release": "npm version patch && npm run build && gh release create v$(node -p \"require('./package.json').version\") dist/*/FounderOS* --generate-notes"
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "dependencies": {
+    "electron-updater": "^6.1.8"
+  },
+  "build": {
+    "appId": "io.founderos.app",
+    "productName": "FounderOS",
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "dist/founder-os-backend",
+        "to": "backend"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "hardenedRuntime": true,
+      "target": [
+        { "target": "dmg", "arch": ["arm64", "x64"] },
+        { "target": "zip", "arch": ["arm64", "x64"] }
+      ]
+    },
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }]
+    },
+    "linux": {
+      "target": [{ "target": "AppImage", "arch": ["x64"] }],
+      "category": "Utility"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "rajaathota72",
+      "repo": "founder-os"
+    },
+    "dmg": {
+      "contents": [
+        { "x": 130, "y": 220 },
+        { "x": 410, "y": 220, "type": "link", "path": "/Applications" }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
